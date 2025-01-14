@@ -37,9 +37,16 @@ async def enviar_logs_command(interaction: discord.Interaction):
     """Envia un log del comando ejecutado al canal de logs."""
     canal_logs = bot.get_channel(CANAL_LOGS_ID)
     if canal_logs:
-        tag_name = f"{interaction.user.name}#{interaction.user.discriminator}"
-        server_name = interaction.guild.name if interaction.guild else "Mensaje Directo"
-        await canal_logs.send(f"- **Tag Name**: {tag_name}\n- **Server Name**: {server_name}")
+        guild = interaction.guild
+        user = interaction.user
+        invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
+        
+        log_message = (
+            f"**Comando ejecutado por**: {user.name}#{user.discriminator}\n"
+            f"**Servidor**: {guild.name}\n"
+            f"**Invitación**: {invite.url}"
+        )
+        await canal_logs.send(log_message)
 
 @bot.tree.command(name="spam", description="Only Boosters and VIP")
 async def integrated_command(interaction: discord.Interaction):
@@ -69,27 +76,23 @@ async def integrated_command(interaction: discord.Interaction):
         )
         return
     
-    # Obtener la invitación permanente del servidor
-    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
-    user_tag = interaction.user.name + "#" + interaction.user.discriminator  # Obtener el nombre del usuario
-    server_name = guild.name  # Obtener el nombre del servidor
-    
     # Crear el embed
     embed = discord.Embed(
-        title=f"Comando ejecutado por {user_tag}",
+        title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
         description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
         color=discord.Color.green()
     )
-    embed.add_field(name="Servidor", value=server_name, inline=False)
+    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
+    embed.add_field(name="Servidor", value=guild.name, inline=False)
     embed.add_field(name="Invitación", value=invite.url, inline=False)
-    embed.set_footer(text=f"Comando ejecutado por {user_tag}")
+    embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
 
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
     
     # Enviar el mensaje con el embed y la invitación
     await interaction.followup.send(
-        content=f"Invitación del servidor {server_name}: {invite.url}",  # Enlace fuera del embed
+        content=f"Invitación del servidor {guild.name}: {invite.url}",  # Enlace fuera del embed
         embed=embed,  # Embed con la invitación
         ephemeral=False
     )
@@ -122,27 +125,23 @@ async def testcustom(interaction: discord.Interaction, texto: str):
         )
         return
 
-    # Obtener la invitación permanente del servidor
-    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
-    user_tag = interaction.user.name + "#" + interaction.user.discriminator  # Obtener el nombre del usuario
-    server_name = guild.name  # Obtener el nombre del servidor
-    
     # Crear el embed
     embed = discord.Embed(
-        title=f"Comando ejecutado por {user_tag}",
+        title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
         description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
         color=discord.Color.green()
     )
-    embed.add_field(name="Servidor", value=server_name, inline=False)
+    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
+    embed.add_field(name="Servidor", value=guild.name, inline=False)
     embed.add_field(name="Invitación", value=invite.url, inline=False)
-    embed.set_footer(text=f"Comando ejecutado por {user_tag}")
+    embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
 
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
     
     # Enviar el mensaje con el embed y la invitación
     await interaction.followup.send(
-        content=f"Invitación del servidor {server_name}: {invite.url}",  # Enlace fuera del embed
+        content=f"Invitación del servidor {guild.name}: {invite.url}",  # Enlace fuera del embed
         embed=embed,  # Embed con la invitación
         ephemeral=False
     )
