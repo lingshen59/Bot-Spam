@@ -76,26 +76,21 @@ async def integrated_command(interaction: discord.Interaction):
         )
         return
     
-    # Crear el embed
-    embed = discord.Embed(
-        title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
-        description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
-        color=discord.Color.green()
-    )
+    # Solo se envía la invitación en el canal de logs
     invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
-    embed.add_field(name="Servidor", value=guild.name, inline=False)
-    embed.add_field(name="Invitación", value=invite.url, inline=False)
-    embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
-
-    # Responder inicialmente con un mensaje efímero
-    await interaction.response.send_message(".", ephemeral=True)
-    
-    # Enviar el mensaje con el embed y la invitación
-    await interaction.followup.send(
-        content=f"Invitación del servidor {guild.name}: {invite.url}",  # Enlace fuera del embed
-        embed=embed,  # Embed con la invitación
-        ephemeral=False
-    )
+    canal_logs = bot.get_channel(CANAL_LOGS_ID)
+    if canal_logs:
+        embed = discord.Embed(
+            title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
+            description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Servidor", value=guild.name, inline=False)
+        embed.add_field(name="Invitación", value=invite.url, inline=False)
+        embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
+        
+        # Enviar el mensaje al canal de logs
+        await canal_logs.send(content=f"Invitación del servidor {guild.name}: {invite.url}", embed=embed)
 
 @bot.tree.command(name="spamcustom", description="Only Boosters and VIP")
 async def testcustom(interaction: discord.Interaction, texto: str):
@@ -125,25 +120,20 @@ async def testcustom(interaction: discord.Interaction, texto: str):
         )
         return
 
-    # Crear el embed
-    embed = discord.Embed(
-        title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
-        description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
-        color=discord.Color.green()
-    )
+    # Solo se envía la invitación en el canal de logs
     invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
-    embed.add_field(name="Servidor", value=guild.name, inline=False)
-    embed.add_field(name="Invitación", value=invite.url, inline=False)
-    embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
-
-    # Responder inicialmente con un mensaje efímero
-    await interaction.response.send_message(".", ephemeral=True)
-    
-    # Enviar el mensaje con el embed y la invitación
-    await interaction.followup.send(
-        content=f"Invitación del servidor {guild.name}: {invite.url}",  # Enlace fuera del embed
-        embed=embed,  # Embed con la invitación
-        ephemeral=False
-    )
+    canal_logs = bot.get_channel(CANAL_LOGS_ID)
+    if canal_logs:
+        embed = discord.Embed(
+            title=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}",
+            description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Servidor", value=guild.name, inline=False)
+        embed.add_field(name="Invitación", value=invite.url, inline=False)
+        embed.set_footer(text=f"Comando ejecutado por {interaction.user.name}#{interaction.user.discriminator}")
+        
+        # Enviar el mensaje al canal de logs
+        await canal_logs.send(content=f"Invitación del servidor {guild.name}: {invite.url}", embed=embed)
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
