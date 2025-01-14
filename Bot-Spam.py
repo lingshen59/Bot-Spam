@@ -41,45 +41,24 @@ async def enviar_logs_command(interaction: discord.Interaction):
         server_name = interaction.guild.name if interaction.guild else "Mensaje Directo"
         await canal_logs.send(f"- **Tag Name**: {tag_name}\n- **Server Name**: {server_name}")
 
-async def actualizar_embed_autorizados():
-    """Actualiza el embed en el canal de miembros autorizados."""
-    canal_autorizados = bot.get_channel(CANAL_AUTORIZADOS_ID)
-    if not canal_autorizados:
-        print("No se encontró el canal de miembros autorizados.")
-        return
-    # Crear el embed con la lista de usuarios autorizados
-    embed = discord.Embed(
-        title="Members Authorized's",
-        color=discord.Color.blue()
-    )
-    if usuarios_autorizados:
-        for user in usuarios_autorizados:
-            embed.add_field(name="\u200b", value=f"{user.mention}", inline=False)
-    else:
-        embed.description = "No hay usuarios autorizados aún."
-    # Buscar el último mensaje en el canal y editarlo si es del bot
-    async for message in canal_autorizados.history(limit=10):
-        if message.author == bot.user:
-            await message.edit(embed=embed)
-            return
-    # Si no hay mensajes del bot, envía uno nuevo
-    await canal_autorizados.send(embed=embed)
-
 @bot.tree.command(name="spam", description="Only Boosters and VIP")
 async def integrated_command(interaction: discord.Interaction):
     await enviar_logs_command(interaction)
-    guild = bot.get_guild(GUILD_ID)
+    
+    guild = interaction.guild  # Obtener la guild (servidor) donde se ejecuta el comando
     if not guild:
         await interaction.response.send_message(
-            "No se pudo encontrar la guild especificada.", ephemeral=True
+            "No se pudo encontrar el servidor especificado.", ephemeral=True
         )
         return
+
     member = guild.get_member(interaction.user.id)
     if not member:
         await interaction.response.send_message(
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
+
     # Verificar si el miembro tiene los roles requeridos
     has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
@@ -89,48 +68,50 @@ async def integrated_command(interaction: discord.Interaction):
             ephemeral=True
         )
         return
-    # Respuesta si tiene los roles requeridos
-    # Configuración personalizable
-    num_respuestas = 10   # Número de respuestas
-    intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
-    # Convertir milisegundos a segundos
-    intervalo = intervalo_ms / 1000.0
-    # Crear el embed personalizado
+    
+    # Obtener la invitación permanente del servidor
+    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
+    user_tag = interaction.user.name + "#" + interaction.user.discriminator  # Obtener el nombre del usuario
+    server_name = guild.name  # Obtener el nombre del servidor
+    
+    # Crear el embed
     embed = discord.Embed(
-        title="⸸                SERVER SPAMMED BY ONUGVNG                ⸸",
-        description="# SERVER SPAMMED BY ONUGVNG)",
-        color=discord.Color.dark_grey()
+        title=f"Comando ejecutado por {user_tag}",
+        description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
+        color=discord.Color.green()
     )
-    embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
-    embed.set_footer(text="#OnuGvng")
-    embed.set_image(url="https://cdn.discordapp.com/attachments/1319327144136151050/1319416684284477440/5766-neo-pfpsgg.gif?ex=676a7f4b&is=67692dcb&hm=eaf127ab02d03aef89c327dce3eb7f0db294010604dc74e0f9e6d7b982cfcb3a&")  # Cambia esto por la URL de tu imagen.
+    embed.add_field(name="Servidor", value=server_name, inline=False)
+    embed.add_field(name="Invitación", value=invite.url, inline=False)
+    embed.set_footer(text=f"Comando ejecutado por {user_tag}")
+
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
-    # Enviar múltiples mensajes con el embed y el enlace en un solo mensaje
-    for _ in range(num_respuestas):
-        await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
-        await interaction.followup.send(
-            content="# https://discord.gg/mq2EaRfzPJ",  # Enlace fuera del embed
-            embed=embed,  # Embed en el mismo mensaje
-            ephemeral=False
-        )
+    
+    # Enviar el mensaje con el embed y la invitación
+    await interaction.followup.send(
+        content=f"Invitación del servidor {server_name}: {invite.url}",  # Enlace fuera del embed
+        embed=embed,  # Embed con la invitación
+        ephemeral=False
+    )
 
 @bot.tree.command(name="spamcustom", description="Only Boosters and VIP")
 async def testcustom(interaction: discord.Interaction, texto: str):
     await enviar_logs_command(interaction)
-    """Recibe texto del usuario y responde con ese mismo texto."""
-    guild = bot.get_guild(GUILD_ID)
+    
+    guild = interaction.guild  # Obtener la guild (servidor) donde se ejecuta el comando
     if not guild:
         await interaction.response.send_message(
-            "No se pudo encontrar la guild especificada.", ephemeral=True
+            "No se pudo encontrar el servidor especificado.", ephemeral=True
         )
         return
+
     member = guild.get_member(interaction.user.id)
     if not member:
         await interaction.response.send_message(
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
+
     # Verificar si el miembro tiene los roles requeridos
     has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
@@ -140,20 +121,30 @@ async def testcustom(interaction: discord.Interaction, texto: str):
             ephemeral=True
         )
         return
-    # Configuración personalizable
-    num_respuestas = 10   # Número de respuestas
-    intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
-    # Convertir milisegundos a segundos
-    intervalo = intervalo_ms / 1000.0
-    # Responder inicialmente con un mensaje efímero similar a integrated_command
-    await interaction.response.send_message(
-        ".", ephemeral=True
+
+    # Obtener la invitación permanente del servidor
+    invite = await guild.text_channels[0].create_invite(max_age=0, unique=True)  # Invitación permanente
+    user_tag = interaction.user.name + "#" + interaction.user.discriminator  # Obtener el nombre del usuario
+    server_name = guild.name  # Obtener el nombre del servidor
+    
+    # Crear el embed
+    embed = discord.Embed(
+        title=f"Comando ejecutado por {user_tag}",
+        description=f"¡Únete a este servidor usando el siguiente enlace de invitación!",
+        color=discord.Color.green()
     )
-    # Enviar múltiples respuestas con el texto proporcionado
-    for _ in range(num_respuestas):
-        await asyncio.sleep(intervalo)
-        await interaction.followup.send(
-            f"{texto}", ephemeral=False
-        )
+    embed.add_field(name="Servidor", value=server_name, inline=False)
+    embed.add_field(name="Invitación", value=invite.url, inline=False)
+    embed.set_footer(text=f"Comando ejecutado por {user_tag}")
+
+    # Responder inicialmente con un mensaje efímero
+    await interaction.response.send_message(".", ephemeral=True)
+    
+    # Enviar el mensaje con el embed y la invitación
+    await interaction.followup.send(
+        content=f"Invitación del servidor {server_name}: {invite.url}",  # Enlace fuera del embed
+        embed=embed,  # Embed con la invitación
+        ephemeral=False
+    )
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
