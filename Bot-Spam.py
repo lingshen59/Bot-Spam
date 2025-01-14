@@ -116,7 +116,7 @@ async def integrated_command(interaction: discord.Interaction):
         )
 
 @bot.tree.command(name="spamcustom", description="Only Boosters and VIP")
-async def spamcustom_command(interaction: discord.Interaction, texto: str):
+async def testcustom(interaction: discord.Interaction, texto: str):
     await enviar_logs_command(interaction)
     """Recibe texto del usuario y responde con ese mismo texto."""
     guild = bot.get_guild(GUILD_ID)
@@ -145,7 +145,7 @@ async def spamcustom_command(interaction: discord.Interaction, texto: str):
     intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
     # Convertir milisegundos a segundos
     intervalo = intervalo_ms / 1000.0
-    # Responder inicialmente con un mensaje efímero
+    # Responder inicialmente con un mensaje efímero similar a integrated_command
     await interaction.response.send_message(
         ".", ephemeral=True
     )
