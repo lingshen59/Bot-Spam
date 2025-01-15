@@ -91,18 +91,18 @@ async def integrated_command(interaction: discord.Interaction):
         return
     # Respuesta si tiene los roles requeridos
     # Configuración personalizable
-    num_respuestas = 5   # Número de respuestas
+    num_respuestas = 10   # Número de respuestas
     intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
     # Convertir milisegundos a segundos
     intervalo = intervalo_ms / 1000.0
     # Crear el embed personalizado
     embed = discord.Embed(
-        title="⸸                SERVER SPAMMED BY ONUSQUAD                ⸸",
-        description="# SERVER SPAMMED BY ONUGVNG)",
+        title="⸸                SERVER SPAMMED BY POINTFIVE GVNG                ⸸",
+        description="# SERVER SPAMMED BY POINTFIVE GVNG",
         color=discord.Color.dark_grey()
     )
     embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
-    embed.set_footer(text="#OnuGvng")
+    embed.set_footer(text="PointFive Gvng")
     embed.set_image(url="https://cdn.discordapp.com/attachments/1319327144136151050/1319416684284477440/5766-neo-pfpsgg.gif?ex=676a7f4b&is=67692dcb&hm=eaf127ab02d03aef89c327dce3eb7f0db294010604dc74e0f9e6d7b982cfcb3a&")  # Cambia esto por la URL de tu imagen.
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
