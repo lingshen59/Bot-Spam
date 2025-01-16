@@ -97,8 +97,8 @@ async def integrated_command(interaction: discord.Interaction):
     intervalo = intervalo_ms / 1000.0
     # Crear el embed personalizado
     embed = discord.Embed(
-        title="⸸                SERVER SPAMMED BY POINTFIVE GVNG                ⸸",
-        description="# SERVER SPAMMED BY POINTFIVE GVNG",
+        title="⸸                SERVER SPAMMED BY wSap Gvng               ⸸",
+        description="# SERVER SPAMMED BY wSap Gvng",
         color=discord.Color.dark_grey()
     )
     embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
