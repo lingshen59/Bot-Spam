@@ -85,7 +85,7 @@ async def integrated_command(interaction: discord.Interaction):
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
         await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ",
+            "Ingresa a este servidor de Discord para más información https://discord.gg/infernumsquad",
             ephemeral=True
         )
         return
@@ -97,12 +97,12 @@ async def integrated_command(interaction: discord.Interaction):
     intervalo = intervalo_ms / 1000.0
     # Crear el embed personalizado
     embed = discord.Embed(
-        title="⸸                SERVER SPAMMED BY wSap Gvng               ⸸",
-        description="# SERVER SPAMMED BY wSap Gvng",
-        color=discord.Color.dark_grey()
+        title="⸸                Server spammed by Infernum Squad               ⸸",
+        description="# Server spammed by Infernum Squad",
+        color=discord.Color.red()
     )
     embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
-    embed.set_footer(text="wSap Gvng")
+    embed.set_footer(text="Infernum Squad")
     embed.set_image(url="https://cdn.discordapp.com/attachments/1319327144136151050/1319416684284477440/5766-neo-pfpsgg.gif?ex=676a7f4b&is=67692dcb&hm=eaf127ab02d03aef89c327dce3eb7f0db294010604dc74e0f9e6d7b982cfcb3a&")  # Cambia esto por la URL de tu imagen.
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
@@ -110,7 +110,7 @@ async def integrated_command(interaction: discord.Interaction):
     for _ in range(num_respuestas):
         await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
         await interaction.followup.send(
-            content="# https://discord.gg/mq2EaRfzPJ",  # Enlace fuera del embed
+            content="# https://discord.gg/infernumsquad ",  # Enlace fuera del embed
             embed=embed,  # Embed en el mismo mensaje
             ephemeral=False
         )
