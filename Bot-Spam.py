@@ -85,7 +85,7 @@ async def integrated_command(interaction: discord.Interaction):
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
         await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ",
+            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h",
             ephemeral=True
         )
         return
@@ -97,20 +97,20 @@ async def integrated_command(interaction: discord.Interaction):
     intervalo = intervalo_ms / 1000.0
     # Crear el embed personalizado
     embed = discord.Embed(
-        title="⸸                SERVER SPAMMED BY wSapGvng                ⸸",
-        description="# SERVER SPAMMED BY wSapGVNG)",
+        title="⸸                SERVER SPAMMED BY INFERNUMSQUAD                ⸸",
+        description="# SERVER SPAMMED BY InfernumSquad)",
         color=discord.Color.dark_grey()
     )
     embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
-    embed.set_footer(text="wSapGvng")
-    embed.set_image(url="https://cdn.discordapp.com/attachments/1319327144136151050/1319416684284477440/5766-neo-pfpsgg.gif?ex=676a7f4b&is=67692dcb&hm=eaf127ab02d03aef89c327dce3eb7f0db294010604dc74e0f9e6d7b982cfcb3a&")  # Cambia esto por la URL de tu imagen.
+    embed.set_footer(text="InfernumSquad")
+    embed.set_image(url="https://media.discordapp.net/attachments/1235744013236043888/1253141256947761232/a_b91b0a63867f80ab6995a61b45642af4-0374F.gif?ex=67a6a23d&is=67a550bd&hm=05a9f1298fec5e9472ab15b1c11361290caa28faa50d9bc1e185a2dfd4595711&")  # Cambia esto por la URL de tu imagen.
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
     # Enviar múltiples mensajes con el embed y el enlace en un solo mensaje
     for _ in range(num_respuestas):
         await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
         await interaction.followup.send(
-            content="# @everyone https://discord.gg/mq2EaRfzPJ",  # Enlace fuera del embed
+            content="# @everyone https://discord.gg/infernumsquad",  # Enlace fuera del embed
             embed=embed,  # Embed en el mismo mensaje
             ephemeral=False
         )
@@ -136,7 +136,7 @@ async def testcustom(interaction: discord.Interaction, texto: str):
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
         await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ",
+            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h",
             ephemeral=True
         )
         return
@@ -179,7 +179,7 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
 
     if not has_bypass_role:
         await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ", ephemeral=True
+            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h", ephemeral=True
         )
         return
 
