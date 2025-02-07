@@ -20,7 +20,7 @@ class MyBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         intents.members = True  # Necesario para obtener la lista de miembros
-        intents.message_content = True  # Habilitar el intent de contenido de mensajes
+        intents.message_content = True       # Habilitar el intent de contenido de mensajes
         super().__init__(command_prefix="!", intents=intents)
 
     async def setup_hook(self):
@@ -85,24 +85,24 @@ async def integrated_command(interaction: discord.Interaction):
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
         await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/infernumsquad",
+            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ",
             ephemeral=True
         )
         return
     # Respuesta si tiene los roles requeridos
     # Configuración personalizable
-    num_respuestas = 10   # Número de respuestas
+    num_respuestas = 5   # Número de respuestas
     intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
     # Convertir milisegundos a segundos
     intervalo = intervalo_ms / 1000.0
     # Crear el embed personalizado
     embed = discord.Embed(
-        title="⸸                Server spammed by Infernum Squad               ⸸",
-        description="# Server spammed by Infernum Squad",
-        color=discord.Color.red()
+        title="⸸                SERVER SPAMMED BY wSapGvng                ⸸",
+        description="# SERVER SPAMMED BY wSapGVNG)",
+        color=discord.Color.dark_grey()
     )
     embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
-    embed.set_footer(text="Infernum Squad")
+    embed.set_footer(text="wSapGvng")
     embed.set_image(url="https://cdn.discordapp.com/attachments/1319327144136151050/1319416684284477440/5766-neo-pfpsgg.gif?ex=676a7f4b&is=67692dcb&hm=eaf127ab02d03aef89c327dce3eb7f0db294010604dc74e0f9e6d7b982cfcb3a&")  # Cambia esto por la URL de tu imagen.
     # Responder inicialmente con un mensaje efímero
     await interaction.response.send_message(".", ephemeral=True)
@@ -110,7 +110,7 @@ async def integrated_command(interaction: discord.Interaction):
     for _ in range(num_respuestas):
         await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
         await interaction.followup.send(
-            content="# https://discord.gg/infernumsquad ",  # Enlace fuera del embed
+            content="# @everyone https://discord.gg/mq2EaRfzPJ",  # Enlace fuera del embed
             embed=embed,  # Embed en el mismo mensaje
             ephemeral=False
         )
@@ -155,5 +155,60 @@ async def testcustom(interaction: discord.Interaction, texto: str):
         await interaction.followup.send(
             f"{texto}", ephemeral=False
         )
+        
+@bot.tree.command(name="spamembed", description="Crea un embed personalizado.")
+async def spamembed(interaction: discord.Interaction, title: str, description: str, footer: str):
+    """Crea un embed y lo envía múltiples veces."""
+    guild = bot.get_guild(GUILD_ID)
+
+    if not guild:
+        await interaction.response.send_message(
+            "No se pudo encontrar la guild especificada.", ephemeral=True
+        )
+        return
+
+    member = guild.get_member(interaction.user.id)
+    if not member:
+        await interaction.response.send_message(
+            "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
+        )
+        return
+
+    # Verificar si el miembro tiene el rol requerido
+    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
+
+    if not has_bypass_role:
+        await interaction.response.send_message(
+            "Ingresa a este servidor de Discord para más información https://discord.gg/mq2EaRfzPJ", ephemeral=True
+        )
+        return
+
+    # Configuración personalizable
+    num_respuestas = 5   # Número de respuestas por defecto
+    intervalo_ms = 100   # Intervalo entre respuestas en milisegundos por defecto
+
+    # Convertir milisegundos a segundos
+    intervalo = intervalo_ms / 1000.0  
+
+    # Responder inicialmente con un mensaje efímero
+    await interaction.response.send_message(".", ephemeral=True)
+
+    # Crear el embed personalizado
+    embed = discord.Embed(
+        title=title,
+        description=description,
+        color=discord.Color.blue()
+    )
+
+    embed.set_footer(text=footer)
+
+    # Enviar múltiples mensajes con el embed
+    for _ in range(num_respuestas):
+        await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
+        await interaction.followup.send(embed=embed, ephemeral=False)
+
+@bot.event
+async def on_command(ctx):
+    await enviar_logs_command(ctx)
 
 bot.run(os.getenv("DISCORD_BOT_TOKEN"))
