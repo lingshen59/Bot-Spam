@@ -207,6 +207,48 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
         await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
         await interaction.followup.send(embed=embed, ephemeral=False)
 
+@bot.tree.command(name="masspoll", description="Create multiple polls quickly (VIP only)")
+async def mass_poll(
+    interaction: discord.Interaction,
+    question: str,
+    option1: str,
+    option2: str,
+    option3: str,
+    option4: str,
+    amount: int = 5  # 默认发 5 个 Poll
+):
+    """快速发送多个 Poll（优化 Rate Limit）"""
+    # 1. 检查权限（和你的代码一致）
+    guild = bot.get_guild(GUILD_ID)
+    member = guild.get_member(interaction.user.id)
+    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
+    
+    if not has_bypass_role:
+        await interaction.response.send_message("❌ No permission.", ephemeral=True)
+        return
+
+    # 2. 先回应，避免 interaction failed
+    await interaction.response.send_message("🚀 Creating polls...", ephemeral=True)
+
+    # 3. 用 Webhook 或 followup 发送多个 Poll
+    for i in range(amount):
+        embed = discord.Embed(title=f"📊 POLL {i+1}: {question}", color=0x00ff00)
+        embed.add_field(name="InfernumSquad On Top", value=option1)
+        embed.add_field(name="SPAMMED BY INFERNUMSQUAD", value=option2)
+        embed.add_field(name="InfernumSquadIsHere", value=option3)
+        embed.add_field(name="InfernumSquad On Top", value=option4)
+        embed.add_field(name="SPAMMED BY INFERNUMSQUAD", value=option5)
+        
+        # 方法 1: followup.send（推荐）
+        await interaction.followup.send(embed=embed, wait=False)
+        
+        # 方法 2: Webhook（更高频）
+        # webhook = await interaction.channel.create_webhook(name="Poll Spammer")
+        # await webhook.send(embed=embed)
+        # await webhook.delete()
+        
+        await asyncio.sleep(0.8)  # 控制速度（0.8 秒/Poll）
+
 @bot.event
 async def on_command(ctx):
     await enviar_logs_command(ctx)
