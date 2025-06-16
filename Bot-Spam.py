@@ -4,10 +4,10 @@ import asyncio
 import os
 from dotenv import load_dotenv
 
-# Cargar las variables de entorno desde el archivo .env
+# hola
 load_dotenv()
 
-# IDs relevantes
+# IDs
 GUILDS_RESTRINGIDAS = list(map(int, os.getenv("GUILDS_RESTRINGIDAS").split(',')))
 CANAL_AUTORIZADOS_ID = int(os.getenv("CANAL_AUTORIZADOS_ID"))
 CANAL_LOGS_ID = int(os.getenv("CANAL_LOGS_ID"))
@@ -19,8 +19,8 @@ usuarios_autorizados = []
 class MyBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
-        intents.members = True  # Necesario para obtener la lista de miembros
-        intents.message_content = True       # Habilitar el intent de contenido de mensajes
+        intents.members = True  
+        intents.message_content = True      
         super().__init__(command_prefix="!", intents=intents)
 
     async def setup_hook(self):
@@ -47,7 +47,7 @@ async def actualizar_embed_autorizados():
     if not canal_autorizados:
         print("No se encontró el canal de miembros autorizados.")
         return
-    # Crear el embed con la lista de usuarios autorizados
+   
     embed = discord.Embed(
         title="Members Authorized's",
         color=discord.Color.blue()
@@ -57,12 +57,12 @@ async def actualizar_embed_autorizados():
             embed.add_field(name="\u200b", value=f"{user.mention}", inline=False)
     else:
         embed.description = "No hay usuarios autorizados aún."
-    # Buscar el último mensaje en el canal y editarlo si es del bot
+    
     async for message in canal_autorizados.history(limit=10):
         if message.author == bot.user:
             await message.edit(embed=embed)
             return
-    # Si no hay mensajes del bot, envía uno nuevo
+   
     await canal_autorizados.send(embed=embed)
 
 @bot.tree.command(name="spam", description="Only Boosters and VIP")
@@ -80,7 +80,7 @@ async def integrated_command(interaction: discord.Interaction):
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
-    # Verificar si el miembro tiene los roles requeridos
+    # Verificar si el miembro tiene los roles requeridos o es gay como el que lo ve
     has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
@@ -89,29 +89,26 @@ async def integrated_command(interaction: discord.Interaction):
             ephemeral=True
         )
         return
-    # Respuesta si tiene los roles requeridos
-    # Configuración personalizable
-    num_respuestas = 5   # Número de respuestas
-    intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
-    # Convertir milisegundos a segundos
+   
+    num_respuestas = 5  
+    intervalo_ms = 200  
     intervalo = intervalo_ms / 1000.0
-    # Crear el embed personalizado
+    
     embed = discord.Embed(
         title="⸸                SERVER SPAMMED BY INFERNUMSQUAD                ⸸",
         description="# SERVER SPAMMED BY InfernumSquad)",
         color=discord.Color.dark_grey()
     )
-    embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False)  # Separador decorativo
+    embed.add_field(name="\u200b", value="‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ─────────✦─────────‎ ‎‎ ‎‎ ‎‎ ‎ ‎‎ ‎‎ ‎‎ ", inline=False) 
     embed.set_footer(text="InfernumSquad")
-    embed.set_image(url="https://media.discordapp.net/attachments/1235744013236043888/1253141256947761232/a_b91b0a63867f80ab6995a61b45642af4-0374F.gif?ex=67a6a23d&is=67a550bd&hm=05a9f1298fec5e9472ab15b1c11361290caa28faa50d9bc1e185a2dfd4595711&")  # Cambia esto por la URL de tu imagen.
-    # Responder inicialmente con un mensaje efímero
+    embed.set_image(url="https://media.discordapp.net/attachments/1235744013236043888/1253141256947761232/a_b91b0a63867f80ab6995a61b45642af4-0374F.gif?ex=67a6a23d&is=67a550bd&hm=05a9f1298fec5e9472ab15b1c11361290caa28faa50d9bc1e185a2dfd4595711&")  # Cambia esto por la URL de tu imagen. Si quieres dejalo asi🤑🤑
+
     await interaction.response.send_message(".", ephemeral=True)
-    # Enviar múltiples mensajes con el embed y el enlace en un solo mensaje
     for _ in range(num_respuestas):
-        await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
+        await asyncio.sleep(intervalo)  
         await interaction.followup.send(
-            content="# @everyone https://discord.gg/infernumsquad",  # Enlace fuera del embed
-            embed=embed,  # Embed en el mismo mensaje
+            content="# @everyone https://discord.gg/infernumsquad", 
+            embed=embed, 
             ephemeral=False
         )
 
@@ -131,7 +128,7 @@ async def testcustom(interaction: discord.Interaction, texto: str):
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
-    # Verificar si el miembro tiene los roles requeridos
+    
     has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
     has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
     if not has_bypass_role and not has_booster_role:
@@ -140,16 +137,15 @@ async def testcustom(interaction: discord.Interaction, texto: str):
             ephemeral=True
         )
         return
-    # Configuración personalizable
-    num_respuestas = 10   # Número de respuestas
-    intervalo_ms = 200   # Intervalo entre respuestas en milisegundos
-    # Convertir milisegundos a segundos
+    
+    num_respuestas = 10  
+    intervalo_ms = 200   
     intervalo = intervalo_ms / 1000.0
-    # Responder inicialmente con un mensaje efímero similar a integrated_command
+  
     await interaction.response.send_message(
         ".", ephemeral=True
     )
-    # Enviar múltiples respuestas con el texto proporcionado
+  
     for _ in range(num_respuestas):
         await asyncio.sleep(intervalo)
         await interaction.followup.send(
@@ -158,7 +154,7 @@ async def testcustom(interaction: discord.Interaction, texto: str):
         
 @bot.tree.command(name="spamembed", description="Crea un embed personalizado.")
 async def spamembed(interaction: discord.Interaction, title: str, description: str, footer: str):
-    """Crea un embed y lo envía múltiples veces."""
+    """Crea un embed y lo envía múltiples veces"""
     guild = bot.get_guild(GUILD_ID)
 
     if not guild:
@@ -174,7 +170,6 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
         )
         return
 
-    # Verificar si el miembro tiene el rol requerido
     has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
 
     if not has_bypass_role:
@@ -183,17 +178,17 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
         )
         return
 
-    # Configuración personalizable
-    num_respuestas = 5   # Número de respuestas por defecto
-    intervalo_ms = 100   # Intervalo entre respuestas en milisegundos por defecto
+   
+    num_respuestas = 5  
+    intervalo_ms = 100  
 
-    # Convertir milisegundos a segundos
+   
     intervalo = intervalo_ms / 1000.0  
 
-    # Responder inicialmente con un mensaje efímero
+  
     await interaction.response.send_message(".", ephemeral=True)
 
-    # Crear el embed personalizado
+ 
     embed = discord.Embed(
         title=title,
         description=description,
@@ -202,52 +197,10 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
 
     embed.set_footer(text=footer)
 
-    # Enviar múltiples mensajes con el embed
+
     for _ in range(num_respuestas):
         await asyncio.sleep(intervalo)  # Esperar el intervalo configurado
         await interaction.followup.send(embed=embed, ephemeral=False)
-
-@bot.tree.command(name="masspoll", description="Create multiple polls quickly (VIP only)")
-async def mass_poll(
-    interaction: discord.Interaction,
-    question: str,
-    option1: str,
-    option2: str,
-    option3: str,
-    option4: str,
-    amount: int = 5  # 默认发 5 个 Poll
-):
-    """快速发送多个 Poll（优化 Rate Limit）"""
-    # 1. 检查权限（和你的代码一致）
-    guild = bot.get_guild(GUILD_ID)
-    member = guild.get_member(interaction.user.id)
-    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
-    
-    if not has_bypass_role:
-        await interaction.response.send_message("❌ No permission.", ephemeral=True)
-        return
-
-    # 2. 先回应，避免 interaction failed
-    await interaction.response.send_message("🚀 Creating polls...", ephemeral=True)
-
-    # 3. 用 Webhook 或 followup 发送多个 Poll
-    for i in range(amount):
-        embed = discord.Embed(title=f"📊 POLL {i+1}: {question}", color=0x00ff00)
-        embed.add_field(name="InfernumSquad On Top", value=option1)
-        embed.add_field(name="SPAMMED BY INFERNUMSQUAD", value=option2)
-        embed.add_field(name="InfernumSquadIsHere", value=option3)
-        embed.add_field(name="InfernumSquad On Top", value=option4)
-        embed.add_field(name="SPAMMED BY INFERNUMSQUAD", value=option5)
-        
-        # 方法 1: followup.send（推荐）
-        await interaction.followup.send(embed=embed, wait=False)
-        
-        # 方法 2: Webhook（更高频）
-        # webhook = await interaction.channel.create_webhook(name="Poll Spammer")
-        # await webhook.send(embed=embed)
-        # await webhook.delete()
-        
-        await asyncio.sleep(0.8)  # 控制速度（0.8 秒/Poll）
 
 @bot.event
 async def on_command(ctx):
