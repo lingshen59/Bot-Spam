@@ -11,8 +11,6 @@ load_dotenv()
 GUILDS_RESTRINGIDAS = list(map(int, os.getenv("GUILDS_RESTRINGIDAS").split(',')))
 CANAL_AUTORIZADOS_ID = int(os.getenv("CANAL_AUTORIZADOS_ID"))
 CANAL_LOGS_ID = int(os.getenv("CANAL_LOGS_ID"))
-BYPASS_ROLE_ID = int(os.getenv("BYPASS_ROLE_ID"))
-BOOSTER_ROLE_ID = int(os.getenv("BOOSTER_ROLE_ID"))
 GUILD_ID = int(os.getenv("GUILD_ID"))
 usuarios_autorizados = []
 
@@ -65,7 +63,7 @@ async def actualizar_embed_autorizados():
    
     await canal_autorizados.send(embed=embed)
 
-@bot.tree.command(name="spam", description="Only Boosters and VIP")
+@bot.tree.command(name="spam", description="Spam")
 async def integrated_command(interaction: discord.Interaction):
     await enviar_logs_command(interaction)
     guild = bot.get_guild(GUILD_ID)
@@ -78,15 +76,6 @@ async def integrated_command(interaction: discord.Interaction):
     if not member:
         await interaction.response.send_message(
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
-        )
-        return
-    # Verificar si el miembro tiene los roles requeridos o es gay como el que lo ve
-    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
-    has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
-    if not has_bypass_role and not has_booster_role:
-        await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h",
-            ephemeral=True
         )
         return
    
@@ -112,7 +101,7 @@ async def integrated_command(interaction: discord.Interaction):
             ephemeral=False
         )
 
-@bot.tree.command(name="spamcustom", description="Only Boosters and VIP")
+@bot.tree.command(name="spamcustom", description="Spamcustom")
 async def testcustom(interaction: discord.Interaction, texto: str):
     await enviar_logs_command(interaction)
     """Recibe texto del usuario y responde con ese mismo texto."""
@@ -128,16 +117,7 @@ async def testcustom(interaction: discord.Interaction, texto: str):
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
-    
-    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
-    has_booster_role = discord.utils.get(member.roles, id=BOOSTER_ROLE_ID)
-    if not has_bypass_role and not has_booster_role:
-        await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h",
-            ephemeral=True
-        )
-        return
-    
+
     num_respuestas = 10  
     intervalo_ms = 200   
     intervalo = intervalo_ms / 1000.0
@@ -169,16 +149,7 @@ async def spamembed(interaction: discord.Interaction, title: str, description: s
             "No se pudo encontrar al miembro en la guild especificada.", ephemeral=True
         )
         return
-
-    has_bypass_role = discord.utils.get(member.roles, id=BYPASS_ROLE_ID)
-
-    if not has_bypass_role:
-        await interaction.response.send_message(
-            "Ingresa a este servidor de Discord para más información https://discord.gg/yJYmDHpW5h", ephemeral=True
-        )
-        return
-
-   
+        
     num_respuestas = 5  
     intervalo_ms = 100  
 
